@@ -1,0 +1,99 @@
+--[[ Generated with https://github.com/TypeScriptToLua/TypeScriptToLua ]]
+____exports = {}
+Values = Values or ({})
+Values.String = 0
+Values[Values.String] = "String"
+Values.Boolean = 1
+Values[Values.Boolean] = "Boolean"
+Values.Float = 2
+Values[Values.Float] = "Float"
+options = {
+    track = function(____, ____bindingPattern0)
+        local text
+        local step
+        local min
+        local max
+        local def
+        local id
+        id = ____bindingPattern0.id
+        def = ____bindingPattern0.def
+        max = ____bindingPattern0.max
+        min = ____bindingPattern0.min
+        step = ____bindingPattern0.step
+        text = ____bindingPattern0.text
+        return {
+            type = "track",
+            val = Values.Float,
+            id = id,
+            def = def,
+            min = min,
+            max = max,
+            step = step,
+            text = text
+        }
+    end,
+    check = function(____, ____bindingPattern0)
+        local text
+        local def
+        local id
+        id = ____bindingPattern0.id
+        def = ____bindingPattern0.def
+        text = ____bindingPattern0.text
+        return {
+            type = "check",
+            val = Values.Boolean,
+            id = id,
+            def = def,
+            text = text
+        }
+    end,
+    title = function(____, ____bindingPattern0)
+        local text
+        local align
+        local id
+        id = ____bindingPattern0.id
+        align = ____bindingPattern0.align
+        text = ____bindingPattern0.text
+        return {type = "title", id = id, align = align, text = text}
+    end,
+    description = function() return {} end,
+    line = {type = "line"},
+    slide = function(____, ____bindingPattern0)
+        local text
+        local spacing
+        local size
+        local id
+        id = ____bindingPattern0.id
+        size = ____bindingPattern0.size
+        spacing = ____bindingPattern0.spacing
+        text = ____bindingPattern0.text
+        return {
+            type = "slide",
+            val = Values.Boolean,
+            id = id,
+            size = size,
+            spacing = spacing,
+            text = text
+        }
+    end
+}
+addonId = "pcprs_healing_campfires"
+defaultConfig = {hp_restore_mlt = 1, must_be_lit = true}
+function on_mcm_load()
+    return {
+        id = addonId,
+        sh = true,
+        gr = {
+            options:check({id = "must_be_lit", def = defaultConfig.must_be_lit, text = "ui_mcm_pcprs_healing_campfires_must_be_lit"}),
+            options:track({
+                id = "hp_restore_mlt",
+                text = "ui_mcm_pcprs_healing_campfires_hp_restore_mlt",
+                min = 0.5,
+                max = 1.5,
+                def = defaultConfig.hp_restore_mlt,
+                step = 0.1
+            })
+        }
+    }
+end
+

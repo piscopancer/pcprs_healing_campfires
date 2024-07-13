@@ -1,0 +1,25 @@
+{
+  "name": "pcpr_healing_campfires",
+  "module": "index.ts",
+  "type": "module",
+  "main": "index.ts",
+  "scripts": {
+    "build": "bun .",
+    "dev": "bun --hot ."
+  },
+  "devDependencies": {
+    "@types/bun": "latest",
+    "typescript": "^5.5.3",
+    "typescript-to-lua": "^1.26.0"
+  },
+  "peerDependencies": {
+    "typescript": "^5.0.0"
+  },
+  "dependencies": {
+    "@types/json2xml": "^0.1.4",
+    "@types/windows-1251": "^0.1.22",
+    "iconv-lite": "^0.6.3",
+    "json2xml": "^0.1.3",
+    "tstl-export-to-global": "^1.0.1"
+  }
+}

@@ -1,0 +1,71 @@
+--[[ Generated with https://github.com/TypeScriptToLua/TypeScriptToLua ]]
+-- Lua Library inline imports
+function __TS__ObjectAssign(target, ...)
+    local sources = {...}
+    for i = 1, #sources do
+        local source = sources[i]
+        for key in pairs(source) do
+            target[key] = source[key]
+        end
+    end
+    return target
+end
+
+function __TS__ObjectEntries(obj)
+    local result = {}
+    local len = 0
+    for key in pairs(obj) do
+        len = len + 1
+        result[len] = {key, obj[key]}
+    end
+    return result
+end
+-- End of Lua Library inline imports
+____exports = {}
+config = ui_mcm and ({
+    hp_restore_mlt = ui_mcm.get("pcprs_healing_campfires/hp_restore_mlt"),
+    must_be_lit = ui_mcm.get("pcprs_healing_campfires/must_be_lit")
+}) or __TS__ObjectAssign({}, pcprs_healing_campfires_mcm.defaultConfig)
+baseRegen = 0.0003
+function suitable_campfire_nearby(distance)
+    local pos = db.actor:position()
+    for ____, ____value in ipairs(__TS__ObjectEntries(bind_campfire.campfires_all)) do
+        local binder = ____value[2]
+        if not binder or not binder.campfire then
+            return false
+        end
+        if config.must_be_lit and binder.campfire:is_on() then
+            if pos:distance_to_sqr(binder.object:position()) <= distance then
+                return true
+            end
+        end
+    end
+    return false
+end
+function actor_on_update()
+    if not db.actor then
+        return
+    end
+    if suitable_campfire_nearby(10) then
+        db.actor:change_health(baseRegen * config.hp_restore_mlt)
+        printf("healing, current health: [%s] | (mcm) heal: [%s] | def_conf_hp: %s", db.actor.health, config.hp_restore_mlt, pcprs_healing_campfires_mcm.defaultConfig.hp_restore_mlt)
+    end
+end
+function actor_on_jump()
+    local ____opt_0 = db.actor
+    if ____opt_0 ~= nil then
+        ____opt_0:change_health(-0.2)
+    end
+end
+function on_option_change()
+    if ui_mcm then
+        config.hp_restore_mlt = ui_mcm.get("pcprs_healing_campfires/hp_restore_mlt")
+        config.must_be_lit = ui_mcm.get("pcprs_healing_campfires/must_be_lit")
+    end
+end
+function on_game_start()
+    RegisterScriptCallback("actor_on_jump", actor_on_jump)
+    RegisterScriptCallback("actor_on_update", actor_on_update)
+    RegisterScriptCallback("on_option_change", on_option_change)
+end
+
