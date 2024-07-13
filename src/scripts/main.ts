@@ -13,7 +13,7 @@ function suitable_campfire_nearby(this: void, distance: number): boolean {
     if (!binder || !binder.campfire) {
       return false
     }
-    if (config.must_be_lit && binder.campfire.is_on()) {
+    if (!config.must_be_lit || (config.must_be_lit && binder.campfire.is_on())) {
       if (pos.distance_to_sqr(binder.object.position()) <= distance) {
         return true
       }

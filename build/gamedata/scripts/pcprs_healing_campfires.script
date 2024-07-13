@@ -35,7 +35,7 @@ function suitable_campfire_nearby(distance)
         if not binder or not binder.campfire then
             return false
         end
-        if config.must_be_lit and binder.campfire:is_on() then
+        if not config.must_be_lit or config.must_be_lit and binder.campfire:is_on() then
             if pos:distance_to_sqr(binder.object:position()) <= distance then
                 return true
             end
