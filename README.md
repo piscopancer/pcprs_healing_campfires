@@ -1,6 +1,8 @@
-# Addon
+![](https://i.playground.ru/p/nWP0ummTaaVgV5-kqb7Wbg.png)
 
-Piscopancer's Healing Campfires is an addon for a game S.T.A.L.K.E.R. Anomaly 1.5.2. Standing near a lit campfires warms body and treats wounds, causing character's health to restore. The fashion in which health is restored can be configured via [MCM](https://www.moddb.com/mods/stalker-anomaly/addons/anomaly-mod-configuration-menu).
+# Piscopancer's Healing Campfires
+
+Piscopancer's Healing Campfires is an addon for a game S.T.A.L.K.E.R. Anomaly 1.5.2. Standing near lit campfires warms body and treats wounds, causing character's health to restore. The fashion in which health is restored can be configured via [MCM](https://www.moddb.com/mods/stalker-anomaly/addons/anomaly-mod-configuration-menu).
 
 # Project
 

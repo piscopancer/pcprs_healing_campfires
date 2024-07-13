@@ -11,12 +11,13 @@ var pcprs_healing_campfires_mcm: {
 type McmConfig = {
   hp_restore_mlt: number
   must_be_lit: boolean
+  distance_to_campfire: number
 }
 type ConfigTexts = Record<
   string,
   Partial<
     Record<keyof McmConfig, string> & {
-      title: string
+      slide: string
     }
   >
 >

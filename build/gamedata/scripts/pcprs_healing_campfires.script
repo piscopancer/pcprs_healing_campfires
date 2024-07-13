@@ -24,7 +24,8 @@ end
 ____exports = {}
 config = ui_mcm and ({
     hp_restore_mlt = ui_mcm.get("pcprs_healing_campfires/hp_restore_mlt"),
-    must_be_lit = ui_mcm.get("pcprs_healing_campfires/must_be_lit")
+    must_be_lit = ui_mcm.get("pcprs_healing_campfires/must_be_lit"),
+    distance_to_campfire = ui_mcm.get("pcprs_healing_campfires/distance_to_campfire")
 }) or __TS__ObjectAssign({}, pcprs_healing_campfires_mcm.defaultConfig)
 baseRegen = 0.0003
 function suitable_campfire_nearby(distance)
@@ -46,25 +47,18 @@ function actor_on_update()
     if not db.actor then
         return
     end
-    if suitable_campfire_nearby(10) then
+    if suitable_campfire_nearby(config.distance_to_campfire) then
         db.actor:change_health(baseRegen * config.hp_restore_mlt)
-        printf("healing, current health: [%s] | (mcm) heal: [%s] | def_conf_hp: %s", db.actor.health, config.hp_restore_mlt, pcprs_healing_campfires_mcm.defaultConfig.hp_restore_mlt)
-    end
-end
-function actor_on_jump()
-    local ____opt_0 = db.actor
-    if ____opt_0 ~= nil then
-        ____opt_0:change_health(-0.2)
     end
 end
 function on_option_change()
     if ui_mcm then
         config.hp_restore_mlt = ui_mcm.get("pcprs_healing_campfires/hp_restore_mlt")
         config.must_be_lit = ui_mcm.get("pcprs_healing_campfires/must_be_lit")
+        config.distance_to_campfire = ui_mcm.get("pcprs_healing_campfires/distance_to_campfire")
     end
 end
 function on_game_start()
-    RegisterScriptCallback("actor_on_jump", actor_on_jump)
     RegisterScriptCallback("actor_on_update", actor_on_update)
     RegisterScriptCallback("on_option_change", on_option_change)
 end

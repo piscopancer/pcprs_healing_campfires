@@ -1,9 +1,10 @@
 const config = ui_mcm
-  ? {
+  ? ({
       hp_restore_mlt: ui_mcm.get('pcprs_healing_campfires/hp_restore_mlt'),
       must_be_lit: ui_mcm.get('pcprs_healing_campfires/must_be_lit'),
-    }
-  : ({ ...pcprs_healing_campfires_mcm.defaultConfig } satisfies McmConfig)
+      distance_to_campfire: ui_mcm.get('pcprs_healing_campfires/distance_to_campfire'),
+    } satisfies McmConfig)
+  : { ...pcprs_healing_campfires_mcm.defaultConfig }
 const baseRegen = 0.0003
 
 function suitable_campfire_nearby(this: void, distance: number): boolean {
@@ -25,7 +26,7 @@ function actor_on_update(this: void) {
   if (!db.actor) {
     return
   }
-  if (suitable_campfire_nearby(10.0)) {
+  if (suitable_campfire_nearby(config.distance_to_campfire)) {
     db.actor.change_health(baseRegen * config.hp_restore_mlt)
     // printf('healing, current health: [%s] | (mcm) heal: [%s] | def_conf_hp: %s', db.actor.health, config.hp_restore_mlt, pcprs_healing_campfires_mcm.defaultConfig.hp_restore_mlt)
   }
@@ -35,6 +36,7 @@ function on_option_change(this: void) {
   if (ui_mcm) {
     config.hp_restore_mlt = ui_mcm.get('pcprs_healing_campfires/hp_restore_mlt')
     config.must_be_lit = ui_mcm.get('pcprs_healing_campfires/must_be_lit')
+    config.distance_to_campfire = ui_mcm.get('pcprs_healing_campfires/distance_to_campfire')
   }
 }
 

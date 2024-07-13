@@ -1,4 +1,16 @@
 --[[ Generated with https://github.com/TypeScriptToLua/TypeScriptToLua ]]
+-- Lua Library inline imports
+function __TS__ObjectAssign(target, ...)
+    local sources = {...}
+    for i = 1, #sources do
+        local source = sources[i]
+        for key in pairs(source) do
+            target[key] = source[key]
+        end
+    end
+    return target
+end
+-- End of Lua Library inline imports
 ____exports = {}
 Values = Values or ({})
 Values.String = 0
@@ -8,82 +20,27 @@ Values[Values.Boolean] = "Boolean"
 Values.Float = 2
 Values[Values.Float] = "Float"
 options = {
-    track = function(____, ____bindingPattern0)
-        local text
-        local step
-        local min
-        local max
-        local def
-        local id
-        id = ____bindingPattern0.id
-        def = ____bindingPattern0.def
-        max = ____bindingPattern0.max
-        min = ____bindingPattern0.min
-        step = ____bindingPattern0.step
-        text = ____bindingPattern0.text
-        return {
-            type = "track",
-            val = Values.Float,
-            id = id,
-            def = def,
-            min = min,
-            max = max,
-            step = step,
-            text = text
-        }
-    end,
-    check = function(____, ____bindingPattern0)
-        local text
-        local def
-        local id
-        id = ____bindingPattern0.id
-        def = ____bindingPattern0.def
-        text = ____bindingPattern0.text
-        return {
-            type = "check",
-            val = Values.Boolean,
-            id = id,
-            def = def,
-            text = text
-        }
-    end,
-    title = function(____, ____bindingPattern0)
-        local text
-        local align
-        local id
-        id = ____bindingPattern0.id
-        align = ____bindingPattern0.align
-        text = ____bindingPattern0.text
-        return {type = "title", id = id, align = align, text = text}
-    end,
+    track = function(____, props) return __TS__ObjectAssign({type = "track", val = Values.Float}, props) end,
+    check = function(____, props) return __TS__ObjectAssign({type = "check", val = Values.Boolean}, props) end,
+    title = function(____, props) return __TS__ObjectAssign({type = "title"}, props) end,
     description = function() return {} end,
     line = {type = "line"},
-    slide = function(____, ____bindingPattern0)
-        local text
-        local spacing
-        local size
-        local id
-        id = ____bindingPattern0.id
-        size = ____bindingPattern0.size
-        spacing = ____bindingPattern0.spacing
-        text = ____bindingPattern0.text
-        return {
-            type = "slide",
-            val = Values.Boolean,
-            id = id,
-            size = size,
-            spacing = spacing,
-            text = text
-        }
-    end
+    slide = function(____, props) return __TS__ObjectAssign({type = "slide"}, props) end
 }
 addonId = "pcprs_healing_campfires"
-defaultConfig = {hp_restore_mlt = 1, must_be_lit = true}
+defaultConfig = {hp_restore_mlt = 1, must_be_lit = true, distance_to_campfire = 15}
 function on_mcm_load()
     return {
         id = addonId,
         sh = true,
         gr = {
+            options:slide({
+                id = "slide",
+                text = "ui_mcm_pcprs_healing_campfires_slide",
+                link = "ui_options_slider_weather_clear",
+                size = {512, 50},
+                spacing = 20
+            }),
             options:check({id = "must_be_lit", def = defaultConfig.must_be_lit, text = "ui_mcm_pcprs_healing_campfires_must_be_lit"}),
             options:track({
                 id = "hp_restore_mlt",
@@ -92,6 +49,14 @@ function on_mcm_load()
                 max = 1.5,
                 def = defaultConfig.hp_restore_mlt,
                 step = 0.1
+            }),
+            options:track({
+                id = "distance_to_campfire",
+                text = "ui_mcm_pcprs_healing_campfires_distance_to_campfire",
+                min = 10,
+                max = 20,
+                def = defaultConfig.distance_to_campfire,
+                step = 1
             })
         }
     }

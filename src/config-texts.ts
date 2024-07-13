@@ -7,14 +7,16 @@ type JsonTextStructure = { string_table: { string: { text: string }; attrs: { id
 
 const configTexts = {
   eng: {
-    title: 'Healing campfires',
+    slide: 'Healing campfires',
     hp_restore_mlt: 'Health restoration speed',
     must_be_lit: 'Campfire must be lit',
+    distance_to_campfire: 'Distance to a campfire',
   },
   rus: {
-    title: 'Оздоровительные костры',
+    slide: 'Оздоровительные костры',
     hp_restore_mlt: 'Скорость восстановления здоровья',
     must_be_lit: 'Костер должен гореть',
+    distance_to_campfire: 'Расстояние до костра',
   },
 } as const satisfies ConfigTexts
 
@@ -22,7 +24,7 @@ export async function buildConfigTexts() {
   for (const lang in configTexts) {
     const json: JsonTextStructure = {
       string_table: [
-        { string: { text: configTexts[lang as keyof typeof configTexts].title }, attrs: { id: `ui_mcm_menu_${addonId}` } },
+        { string: { text: configTexts[lang as keyof typeof configTexts].slide }, attrs: { id: `ui_mcm_menu_${addonId}` } },
         ...objectEntries(configTexts[lang as keyof typeof configTexts]).map(([prop, value]) => {
           const id = `ui_mcm_${addonId}_${prop}`
           return { string: { text: value }, attrs: { id } }

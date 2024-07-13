@@ -4,26 +4,18 @@ enum Values {
   Float = 2,
 }
 
-type Size = [number, number]
 type Content = [number, string][]
 
 const options = {
-  track: ({ id, def, max, min, step, text }: { id: ConfigTextId; text: ConfigTextText; def: number; min: number; max: number; step: number }) => ({
+  track: (props: { id: ConfigTextId; text: ConfigTextText; def: number; min: number; max: number; step: number }) => ({
     type: 'track',
     val: Values.Float,
-    id,
-    def,
-    min,
-    max,
-    step,
-    text,
+    ...props,
   }),
-  check: ({ id, def, text }: { id: ConfigTextId; def: boolean; text: ConfigTextText }) => ({
+  check: (props: { id: ConfigTextId; def: boolean; text: ConfigTextText }) => ({
     type: 'check',
     val: Values.Boolean,
-    id,
-    def,
-    text,
+    ...props,
   }),
   // list: () => ({}),
   // input: () => ({}),
@@ -31,24 +23,18 @@ const options = {
   // radio_v: () => ({}),
   // key_bind: () => ({}),
 
-  title: ({ id, align, text }: { id: ConfigTextId; text: ConfigTextText; align: 'l' | 'c' | 'r' }) => ({
+  title: (props: { id: ConfigTextId; text: ConfigTextText; align: 'l' | 'c' | 'r' }) => ({
     type: 'title',
-    id,
-    align,
-    text,
+    ...props,
   }),
   description: () => ({}),
   line: {
     type: 'line',
   },
   // image: () => ({}),
-  slide: ({ id, size, spacing, text }: { id: ConfigTextId; text: ConfigTextText; size: [number, number]; spacing: number }) => ({
+  slide: (props: { id: ConfigTextId; text: ConfigTextText; size: [number, number]; spacing: number; link: string }) => ({
     type: 'slide',
-    val: Values.Boolean,
-    id,
-    size,
-    spacing,
-    text,
+    ...props,
   }),
 }
 
@@ -65,6 +51,7 @@ const addonId: AddonId = 'pcprs_healing_campfires'
 const defaultConfig = {
   hp_restore_mlt: 1,
   must_be_lit: true,
+  distance_to_campfire: 15,
 } satisfies typeof pcprs_healing_campfires_mcm.defaultConfig
 
 function on_mcm_load(this: void): McmOptionTree {
@@ -72,6 +59,13 @@ function on_mcm_load(this: void): McmOptionTree {
     id: addonId,
     sh: true,
     gr: [
+      options.slide({
+        id: 'slide',
+        text: 'ui_mcm_pcprs_healing_campfires_slide',
+        link: 'ui_options_slider_weather_clear',
+        size: [512, 50],
+        spacing: 20,
+      }),
       options.check({
         id: 'must_be_lit',
         def: defaultConfig.must_be_lit,
@@ -84,6 +78,14 @@ function on_mcm_load(this: void): McmOptionTree {
         max: 1.5,
         def: defaultConfig.hp_restore_mlt,
         step: 0.1,
+      }),
+      options.track({
+        id: 'distance_to_campfire',
+        text: 'ui_mcm_pcprs_healing_campfires_distance_to_campfire',
+        min: 10,
+        max: 20,
+        def: defaultConfig.distance_to_campfire,
+        step: 1,
       }),
     ],
   }
