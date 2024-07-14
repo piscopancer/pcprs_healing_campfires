@@ -35,13 +35,13 @@ const mcmTexts = {
 const addonTexts = {
   eng: {
     chat_message: `
-I fucking love ${color('d_cyan')}rusks${color('default')}\\n \\n
-Yeah :]`,
+I fucking love ${color('d_cyan')}rusks${color('default')}
+\\n \\n \\nYeah :]`,
   },
   rus: {
     chat_message: `
-Бля как же я люблю ${color('d_cyan')}сухарики${color('default')}\\n \\n
-aye :)`,
+Бля как же я люблю ${color('d_cyan')}сухарики${color('default')}
+\\n \\n \\naye :)`,
   },
 } as const satisfies AddonTexts
 
@@ -57,9 +57,7 @@ async function createTextFiles<T extends Texts>(texts: T, filename: string, defa
     } satisfies JsonTextStructure
     let xml: string | Buffer = json2xml(json, { attributes_key: 'attrs' })
     const filePath = process.cwd() + `/build/gamedata/configs/text/${lang}/` + filename
-    if (await fs.exists(filePath)) {
-      await fs.rm(filePath)
-    }
+    await fs.rm(filePath, { force: true })
     await fs.writeFile(filePath, iconv.encode(xml, 'win1251'))
   }
 }
