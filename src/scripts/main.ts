@@ -28,7 +28,6 @@ function actor_on_update(this: void) {
   }
   if (suitable_campfire_nearby(config.distance_to_campfire)) {
     db.actor.change_health(baseRegen * config.hp_restore_mlt)
-    // printf('healing, current health: [%s] | (mcm) heal: [%s] | def_conf_hp: %s', db.actor.health, config.hp_restore_mlt, pcprs_healing_campfires_mcm.defaultConfig.hp_restore_mlt)
   }
 }
 
@@ -40,7 +39,15 @@ function on_option_change(this: void) {
   }
 }
 
+function on_key_press(this: void, key: number) {
+  if (key === DIK_keys.DIK_I) {
+    printf(`I pressed ${DIK_keys.DIK_I}`)
+    db.actor.give_game_news('igor kryl', game.translate_string('pcprs_healing_campfires_chat_message'), 'ui_inGame2_Storonnik_ravnovesiya', 0, 5000)
+  }
+}
+
 function on_game_start(this: void) {
   RegisterScriptCallback('actor_on_update', actor_on_update)
   RegisterScriptCallback('on_option_change', on_option_change)
+  RegisterScriptCallback('on_key_press', on_key_press)
 }

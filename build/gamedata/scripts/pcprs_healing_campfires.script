@@ -58,8 +58,21 @@ function on_option_change()
         config.distance_to_campfire = ui_mcm.get("pcprs_healing_campfires/distance_to_campfire")
     end
 end
+function on_key_press(key)
+    if key == DIK_keys.DIK_I then
+        printf("I pressed " .. tostring(DIK_keys.DIK_I))
+        db.actor:give_game_news(
+            "igor kryl",
+            game.translate_string("pcprs_healing_campfires_chat_message"),
+            "ui_inGame2_Storonnik_ravnovesiya",
+            0,
+            5000
+        )
+    end
+end
 function on_game_start()
     RegisterScriptCallback("actor_on_update", actor_on_update)
     RegisterScriptCallback("on_option_change", on_option_change)
+    RegisterScriptCallback("on_key_press", on_key_press)
 end
 

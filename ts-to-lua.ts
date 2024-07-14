@@ -2,8 +2,7 @@ import fs from 'fs/promises'
 import * as tstl from 'typescript-to-lua'
 import { addonId } from './src/util'
 
-const activeAddonName = 'build'
-const activeAddonScriptsPath = `C:/Users/Igor/AppData/Local/ModOrganizer/STALKER Anomaly/mods/${activeAddonName}/gamedata/scripts`
+const mo2AddonName = 'build'
 
 export async function transpile() {
   tstl.transpileProject(
@@ -15,10 +14,10 @@ export async function transpile() {
     async (name, text) => {
       if (name.endsWith('main.script')) {
         await fs.writeFile(process.cwd() + `/build/gamedata/scripts/${addonId}.script`, correctLua(text))
-        await fs.writeFile(activeAddonScriptsPath + `/${addonId}.script`, correctLua(text))
+        // await fs.writeFile(activeAddonScriptsPath + `/${addonId}.script`, correctLua(text))
       } else if (name.endsWith('mcm.script')) {
         await fs.writeFile(process.cwd() + `/build/gamedata/scripts/${addonId}_mcm.script`, correctLua(text))
-        await fs.writeFile(activeAddonScriptsPath + `/${addonId}_mcm.script`, correctLua(text))
+        // await fs.writeFile(activeAddonScriptsPath + `/${addonId}_mcm.script`, correctLua(text))
       }
     }
   )
@@ -48,4 +47,18 @@ function removeExports(lua: string) {
       .replace(/local ____exports\s*=\s*{\s*}/, '')
       .replace(/return ____exports/, '')
   )
+}
+
+async function updateAddonInMo2() {
+  try {
+    const mo2Folder = `C:/Users/Igor/AppData/Local/ModOrganizer/STALKER Anomaly/mods/${mo2AddonName}/gamedata`
+    await fs.rm(mo2Folder, { recursive: true, force: true })
+    console.log(`Папка ${mo2Folder} успешно удалена.`)
+    const sourceFolder = `C:/dev/other/stalker/${addonId}/build/gamedata`
+    await fs.mkdir(mo2Folder, { recursive: true })
+    await fs.cp(sourceFolder, mo2Folder, { recursive: true })
+    console.log(`Папка ${sourceFolder} успешно скопирована в ${mo2Folder}.`)
+  } catch (error) {
+    console.error('Произошла ошибка:', error)
+  }
 }

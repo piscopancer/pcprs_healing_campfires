@@ -4,7 +4,7 @@
     "target": "ESNext",
     "module": "ESNext",
     "moduleResolution": "Bundler",
-    "skipLibCheck": true,
+    "skipLibCheck": false,
     "strictNullChecks": true,
     "strict": true,
     "moduleDetection": "force"

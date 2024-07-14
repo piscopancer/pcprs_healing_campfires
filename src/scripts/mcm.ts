@@ -7,12 +7,12 @@ enum Values {
 type Content = [number, string][]
 
 const options = {
-  track: (props: { id: ConfigTextId; text: ConfigTextText; def: number; min: number; max: number; step: number }) => ({
+  track: (props: { id: ConfigProperty; text: ConfigTextId; def: number; min: number; max: number; step: number }) => ({
     type: 'track',
     val: Values.Float,
     ...props,
   }),
-  check: (props: { id: ConfigTextId; def: boolean; text: ConfigTextText }) => ({
+  check: (props: { id: ConfigProperty; def: boolean; text: ConfigTextId }) => ({
     type: 'check',
     val: Values.Boolean,
     ...props,
@@ -23,7 +23,7 @@ const options = {
   // radio_v: () => ({}),
   // key_bind: () => ({}),
 
-  title: (props: { id: ConfigTextId; text: ConfigTextText; align: 'l' | 'c' | 'r' }) => ({
+  title: (props: { id: ConfigProperty; text: ConfigTextId; align: 'l' | 'c' | 'r' }) => ({
     type: 'title',
     ...props,
   }),
@@ -32,7 +32,7 @@ const options = {
     type: 'line',
   },
   // image: () => ({}),
-  slide: (props: { id: ConfigTextId; text: ConfigTextText; size: [number, number]; spacing: number; link: string }) => ({
+  slide: (props: { id: ConfigProperty; text: ConfigTextId; size: [number, number]; spacing: number; link: string }) => ({
     type: 'slide',
     ...props,
   }),

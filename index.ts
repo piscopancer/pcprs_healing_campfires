@@ -1,5 +1,5 @@
-import { buildConfigTexts } from './src/config-texts'
+import { createAllTextFiles } from './src/texts'
 import { transpile } from './ts-to-lua'
 
 transpile()
-buildConfigTexts()
+await createAllTextFiles()
