@@ -1,6 +1,9 @@
 build.rar
 todo*
 
+# Anomaly Packer build output
+/build
+
 # Based on https://raw.githubusercontent.com/github/gitignore/main/Node.gitignore
 
 # Logs

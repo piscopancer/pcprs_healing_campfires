@@ -1,16 +1,17 @@
 {
-  "$schema": "https://raw.githubusercontent.com/TypeScriptToLua/TypeScriptToLua/master/tsconfig-schema.json",
   "compilerOptions": {
     "target": "ESNext",
     "module": "ESNext",
     "moduleResolution": "Bundler",
-    "skipLibCheck": false,
-    "strictNullChecks": true,
     "strict": true,
-    "moduleDetection": "force"
+    "skipLibCheck": true,
+    "noEmit": true,
+    "moduleDetection": "force",
+    "paths": {
+      "@/*": ["./*"]
+    },
+    "types": ["node"]
   },
-  "tstl": {
-    "luaTarget": "5.4"
-  },
-  "exclude": ["node_modules"]
+  "include": ["pack.ts", "texts.ts", "gamedata/configs/**/*.ts"],
+  "exclude": ["node_modules", "gamedata/scripts"]
 }

@@ -6,27 +6,27 @@ Piscopancer's Healing Campfires is an addon for a game S.T.A.L.K.E.R. Anomaly 1.
 
 # Project
 
-This project uses [typescript-to-lua](https://www.npmjs.com/package/typescript-to-lua) package to transpile TypeScript code to Lua, which can be used by the game after slight tweaking within a custom function for transpilation.
+This addon is a demonstration of the [anomaly-packer](https://www.npmjs.com/package/anomaly-packer) package. Earlier it carried a hand-written copy of the transpilation and text-generation logic; now that logic lives in the package, and the addon only contains its own content. Building is a single call to `pack()` in [pack.ts](pack.ts), which transpiles the scripts, generates the text files, and refreshes the addon inside Mod Organizer 2.
 
 ## Preparation
 
-1. `bun run build`,
-2. Archive build folder and treat it as an addon.
+1. `pnpm install`,
+2. `pnpm run build`,
+3. Archive the `build` folder and treat it as an addon.
 
-## Rules of Typescript to Lua transpilation
+## Layout
 
-- Every file in `/src/scripts` should have a corresponding output `.script` file in `/build/gamedata/scripts`.
-- TypeScript files under `/src/scripts` cannot be modules - they cannot `export` or `import` from other files. For data interchange between scripts modules (`var`s) in `types.d.ts` should be declared, each module having the name of the file in `/build/gamedata/scripts`. E.g.
+The `gamedata` directory mirrors the game's own structure and is the source `pack()` reads.
 
-  ```ts
-  // types.d.ts
+- `gamedata/scripts/*.ts` are transpiled to flat global `.script` files. Each registered script is listed in `pack.ts`. These files are transpiled as modules but cannot meaningfully `import`/`export` between each other — the engine loads every `.script` as a global table, so cross-script data is reached through a global (see `pcprs_healing_campfires_mcm.defaultConfig` used from the main script).
+- `gamedata/configs/text/{eng,rus}/*.ts` each default-export a function that returns the XML for one text file, built with the package's `translations()` helper. The shared, strongly-typed translation data lives in [texts.ts](texts.ts), where `eng` is the source of truth and `rus` is forced to mirror its keys.
 
-  // this is a module with `defaultConfig` that you can use globally on other scripts
-  var pcprs_healing_campfires_mcm: {
-    defaultConfig: {
-      // ...
-    }
-  }
-  ```
+## Types
 
-- Variables and functions should be global for easy access, FUCK the rules, there are none. Custom function for transpilation takes care of it.
+Game globals (`db`, `bind_campfire`, `ui_mcm`, `RegisterScriptCallback`, …) come from the package and are wired into the scripts through triple-slash references in [gamedata/scripts/env.d.ts](gamedata/scripts/env.d.ts):
+
+```ts
+/// <reference types="anomaly-packer/types/game/db" />
+```
+
+The same file augments the package's empty `McmConfig` interface with this addon's config keys and declares the sibling-script global `pcprs_healing_campfires_mcm`.

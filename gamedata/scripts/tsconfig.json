@@ -1,0 +1,17 @@
+{
+  "compilerOptions": {
+    "target": "ESNext",
+    "module": "ESNext",
+    "moduleResolution": "Bundler",
+    "strict": true,
+    "moduleDetection": "force",
+    "skipLibCheck": true,
+    "types": []
+  },
+  "tstl": {
+    "luaTarget": "5.1",
+    "luaLibImport": "inline",
+    "noHeader": true
+  },
+  "include": ["**/*.ts"]
+}
