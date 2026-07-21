@@ -1,5 +1,5 @@
 /// <reference types="anomaly-packer/types/game" />
-/// <reference types="anomaly-packer/types/addons" />
+/// <reference types="anomaly-packer/types/addons/mcm" />
 
 declare type AddonId = "pcprs_healing_campfires"
 

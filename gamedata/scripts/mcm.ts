@@ -8,10 +8,9 @@ const defaultConfig = {
   distance_to_campfire: 15,
 } satisfies typeof pcprs_healing_campfires_mcm.defaultConfig
 
-function on_mcm_load(this: void): mcm.McmOptionTree {
-  return {
+function on_mcm_load(this: void) {
+  return mcm.menu({
     id: addonId,
-    sh: true,
     gr: [
       mcm.slide({
         id: "slide",
@@ -42,5 +41,5 @@ function on_mcm_load(this: void): mcm.McmOptionTree {
         step: 1,
       }),
     ],
-  }
+  })
 }
